@@ -5,4 +5,5 @@ return [
     'icon' => 'barcode',
     'href' => 'obelaw.catalog.home',
     'slug' => 'catalog',
+    'helper' => true,
 ];
