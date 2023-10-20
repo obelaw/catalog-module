@@ -21,6 +21,9 @@ class Product extends ModelBase
         'name',
         'sku',
         'type',
+        'can_sold',
+        'can_purchased',
+        'in_pos',
     ];
 
     public function getCatagoryNameAttribute()

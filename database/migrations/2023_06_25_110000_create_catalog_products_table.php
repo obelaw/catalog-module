@@ -17,6 +17,9 @@ return new class extends MigrationBase
             $table->string('name');
             $table->string('sku')->unique()->index();
             $table->enum('type', ['primitive', 'finished'])->index();
+            $table->boolean('can_sold')->nullable();
+            $table->boolean('can_purchased')->nullable();
+            $table->boolean('in_pos')->nullable();
             $table->timestamps();
         });
     }

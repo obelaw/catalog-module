@@ -34,7 +34,7 @@ return new class
         $form->addField(FieldType::TEXT, [
             'label' => 'SKU',
             'model' => 'sku',
-            'rules' => 'required|unique:Obelaw\Warehouse\Models\Product,sku',
+            'rules' => 'required',
             'placeholder' => 'iphone-x6',
             'order' => 20,
         ]);
@@ -57,24 +57,30 @@ return new class
             'hint' => 'You can not select.',
         ]);
 
-        // $form->addField(FieldType::SELECT, [
-        //     'label' => 'Measuring Unit',
-        //     'model' => 'measuring_unit',
-        //     'options' => [
-        //         [
-        //             'label' => 'Piece',
-        //             'value' => 'piece',
-        //         ],
-        //         [
-        //             'label' => 'ML',
-        //             'value' => 'ml',
-        //         ],
-        //     ],
-        //     'rules' => 'required',
-        //     'order' => 30,
-        //     'hint' => 'You can not select.',
-        // ]);
+        $form->addField(FieldType::CHECKBOX, [
+            'label' => 'Product Can',
+            'model' => 'can',
+            'options' => [
+                [
+                    'label' => 'Can be Sold',
+                    'value' => 'sold',
+                ],
+                [
+                    'label' => 'Can be Purchased',
+                    'value' => 'purchased',
+                ]
+            ],
+            'rules' => 'required',
+            'order' => 40,
+            'hint' => 'You can not select.',
+        ]);
 
-        return $form->getFields();
+        $form->addField(FieldType::CHECKBOX, [
+            'label' => 'Point Of Sale',
+            'model' => 'in_pos',
+            'rules' => 'nullable',
+            'order' => 50,
+            'hint' => 'Available in POS',
+        ]);
     }
 };

@@ -13,6 +13,11 @@ class ProductCreateComponent extends FromBase
     {
         $validateData = $this->validate();
 
+        $validateData['can_sold'] = $validateData['can']['sold'] ?? null;
+        $validateData['can_purchased'] = $validateData['can']['purchased'] ?? null;
+
+        unset($validateData['can']);
+
         Product::create($validateData);
     }
 }
