@@ -1,4 +1,4 @@
-<x-obelaw-namemodule-layout>
+<x-obelaw-dashboard-layout>
     <!-- Page header -->
     <div class="page-header d-print-none">
         <div class="container-xl">
@@ -6,7 +6,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Obelaw NameModule
+                        Obelaw Catalog
                     </div>
                     <h2 class="page-title">
                         Home
@@ -50,6 +50,40 @@
     </div>
     <!-- Page body -->
     <div class="page-body">
-        ...
+        <div class="container-xl">
+            <div class="col-12">
+                <div class="row row-cards">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card card-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="bg-primary text-white avatar">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-brand-producthunt" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                stroke="currentColor" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M10 16v-8h2.5a2.5 2.5 0 1 1 0 5h-2.5"></path>
+                                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            {{ $countProducts }} Products
+                                        </div>
+                                        <div class="text-muted">
+                                            12 waiting payments
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</x-obelaw-namemodule-layout>
+</x-obelaw-dashboard-layout>
