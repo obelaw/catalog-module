@@ -9,7 +9,7 @@ return new class
         $links->link(
             icon: 'dashboard',
             label: 'Dashboard',
-            href: 'obelaw.purchasing.home',
+            href: 'obelaw.catalog.home',
         );
 
         $links->link(
