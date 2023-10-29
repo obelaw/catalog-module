@@ -31,6 +31,21 @@ class Product extends ModelBase
         return $this->catagory->name ?? '--';
     }
 
+    public function scopeCanSold($query)
+    {
+        return $query->where('can_sold', true);
+    }
+
+    public function scopeCanPurchased($query)
+    {
+        return $query->where('can_purchased', true);
+    }
+
+    public function scopeInPos($query)
+    {
+        return $query->where('in_pos', true);
+    }
+
     public function catagory()
     {
         return $this->hasOne(Catagory::class, 'id', 'catagory_id');
