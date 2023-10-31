@@ -4,10 +4,15 @@ namespace Obelaw\Catalog\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Obelaw\Framework\Base\ModelBase;
+use Obelaw\Serialization\Traits\HasSerialize;
 
 class Product extends ModelBase
 {
     use HasFactory;
+    use HasSerialize;
+
+    protected static $serialPrefix = 'catal';
+    protected static $serialHit = 'p';
 
     protected $table = 'catalog_products';
 
@@ -18,9 +23,9 @@ class Product extends ModelBase
      */
     protected $fillable = [
         'catagory_id',
+        'product_type',
         'name',
         'sku',
-        'type',
         'can_sold',
         'can_purchased',
         'in_pos',

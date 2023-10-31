@@ -1,22 +1,22 @@
 <?php
 
+use Obelaw\Catalog\Models\Variant;
 use Obelaw\Framework\Builder\Build\Grid\{
     CTA,
     Table,
     Bottom
 };
-use Obelaw\Catalog\Models\Product;
 
 return new class
 {
     public function model()
     {
-        return Product::class;
+        return Variant::class;
     }
 
     public function createBottom(Bottom $bottom)
     {
-        $bottom->setBottom('Create new product', 'obelaw.catalog.products.create');
+        $bottom->setBottom('Create New Variant', 'obelaw.catalog.variants.create');
     }
 
     public function table(Table $table)
@@ -24,16 +24,15 @@ return new class
         $table->setColumn('#', 'id')
             ->setColumn('Reference', 'serial')
             ->setColumn('Name', 'name')
-            ->setColumn('SKU', 'sku')
-            ->setColumn('Type', 'product_type')
-            ->setColumn('Catagory', 'catagory_name');
+            ->setColumn('Cost', 'cost');
     }
 
     public function CTA(CTA $CTA)
     {
-        $CTA->setCall('Edit', [
+        $CTA->setCall('Update', [
             'type' => 'route',
-            'route' => 'obelaw.catalog.products.update',
+            'color' => 'primary',
+            'route' => 'obelaw.catalog.variants.update',
         ]);
     }
 };

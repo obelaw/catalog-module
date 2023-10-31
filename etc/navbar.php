@@ -1,6 +1,7 @@
 <?php
 
 use Obelaw\Framework\Builder\Build\Navbar\Links;
+use Obelaw\Framework\Builder\Build\Navbar\SubLinks;
 
 return new class
 {
@@ -15,13 +16,25 @@ return new class
         $links->link(
             icon: 'tags',
             label: 'Categories',
-            href: 'obelaw.catalog.categories.list',
+            href: 'obelaw.catalog.categories.index',
         );
 
-        $links->link(
-            icon: 'brand-producthunt',
+        $links->subLinks(
+            id: 'catalog_products',
+            icon: 'box-seam',
             label: 'Products',
-            href: 'obelaw.catalog.products.list',
+            links: function (SubLinks $links) {
+                $links->link(
+                    icon: 'brand-producthunt',
+                    label: 'Products',
+                    href: 'obelaw.catalog.products.index',
+                );
+                $links->link(
+                    icon: 'components',
+                    label: 'Product Variants',
+                    href: 'obelaw.catalog.variants.index',
+                );
+            },
         );
     }
 };

@@ -23,6 +23,27 @@ return new class
             'hint' => 'You can not select.',
         ]);
 
+        $form->addField(FieldType::SELECT, [
+            'label' => 'Product Type',
+            'model' => 'product_type',
+            'options' => [
+                [
+                    'label' => 'Consumable',
+                    'value' => 1,
+                ],
+                [
+                    'label' => 'Service',
+                    'value' => 2,
+                ],
+                [
+                    'label' => 'Storable Product',
+                    'value' => 3,
+                ],
+            ],
+            'rules' => 'required',
+            'order' => 10,
+        ]);
+
         $form->addField(FieldType::TEXT, [
             'label' => 'Name',
             'model' => 'name',
@@ -37,24 +58,6 @@ return new class
             'rules' => 'required',
             'placeholder' => 'iphone-x6',
             'order' => 20,
-        ]);
-
-        $form->addField(FieldType::SELECT, [
-            'label' => 'Product Type',
-            'model' => 'type',
-            'options' => [
-                [
-                    'label' => 'Primitive',
-                    'value' => 'primitive',
-                ],
-                [
-                    'label' => 'Finished',
-                    'value' => 'finished',
-                ]
-            ],
-            'rules' => 'required',
-            'order' => 30,
-            'hint' => 'You can not select.',
         ]);
 
         $form->addField(FieldType::CHECKBOX, [

@@ -17,9 +17,9 @@ class ProductUpdateComponent extends FromBase
     public function mount(Product $product)
     {
         $this->catagory_id = $product->catagory_id;
+        $this->product_type = $product->product_type;
         $this->name = $product->name;
         $this->sku = $product->sku;
-        $this->type = $product->type;
         $this->can = [
             'sold' => $product->can_sold,
             'purchased' => $product->can_purchased,
