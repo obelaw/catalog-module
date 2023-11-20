@@ -3,8 +3,10 @@
 namespace Obelaw\Catalog\Livewire\Products;
 
 use Obelaw\Catalog\Models\Product;
+use Obelaw\Framework\ACL\Attributes\PermissionAccess;
 use Obelaw\Framework\Base\FromBase;
 
+#[PermissionAccess('catalog_products_create')]
 class ProductCreateComponent extends FromBase
 {
     public $formId = 'obelaw_catalog_products_form';

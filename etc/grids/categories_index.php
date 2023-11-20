@@ -6,6 +6,7 @@ use Obelaw\Framework\Builder\Build\Grid\{
     Bottom
 };
 use Obelaw\Catalog\Models\Catagory;
+use Obelaw\Framework\Builder\Build\Common\RouteAction;
 
 return new class
 {
@@ -16,8 +17,11 @@ return new class
 
     public function createBottom(Bottom $bottom)
     {
-        $bottom->setBottom('obelaw-warehouse::grids.name', 'obelaw.catalog.categories.create');
-        // $bottom->setBottom('Create new catagory', 'obelaw.warehouse.products.categories.create');
+        $bottom->setBottom(
+            label: 'Create new Category',
+            route: 'obelaw.catalog.categories.create',
+            permission: 'catalog_categories_create',
+        );
     }
 
     public function table(Table $table)
@@ -28,9 +32,9 @@ return new class
 
     public function CTA(CTA $CTA)
     {
-        $CTA->setCall('Edit', [
-            'type' => 'route',
-            'route' => 'obelaw.catalog.categories.update',
-        ]);
+        $CTA->setCall('Update', new RouteAction(
+            href: 'obelaw.catalog.categories.update',
+            permission: 'catalog_categories_update',
+        ));
     }
 };

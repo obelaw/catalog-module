@@ -3,8 +3,10 @@
 namespace Obelaw\Catalog\Livewire\Variants;
 
 use Obelaw\Catalog\Models\Variant;
+use Obelaw\Framework\ACL\Attributes\PermissionAccess;
 use Obelaw\Framework\Base\FromBase;
 
+#[PermissionAccess('catalog_variants_update')]
 class UpdateVariantComponent extends FromBase
 {
     public $formId = 'obelaw_catalog_variant_form';
