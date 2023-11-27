@@ -3,11 +3,11 @@
 namespace Obelaw\Catalog\Livewire\Categories;
 
 use Obelaw\Catalog\Models\Catagory;
-use Obelaw\Framework\ACL\Attributes\PermissionAccess;
-use Obelaw\Framework\Base\FromBase;
+use Obelaw\UI\Permissions\Access;
+use Obelaw\UI\Renderer\FormRender;
 
-#[PermissionAccess('catalog_categories_create')]
-class CatagoryCreateComponent extends FromBase
+#[Access('catalog_categories_create')]
+class CatagoryCreateComponent extends FormRender
 {
     public $formId = 'obelaw_catalog_categories_form';
 

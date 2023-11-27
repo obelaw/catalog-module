@@ -3,12 +3,12 @@
 namespace Obelaw\Catalog\Livewire\Variants;
 
 use Obelaw\Catalog\Models\Variant;
-use Obelaw\Framework\ACL\Attributes\PermissionAccess;
-use Obelaw\Framework\Base\GridBase;
+use Obelaw\UI\Permissions\Access;
+use Obelaw\UI\Renderer\GridRender;
 use Obelaw\Framework\Base\Traits\PushAlert;
 
-#[PermissionAccess('catalog_variants_index')]
-class IndexVariantsComponent extends GridBase
+#[Access('catalog_variants_index')]
+class IndexVariantsComponent extends GridRender
 {
     use PushAlert;
 

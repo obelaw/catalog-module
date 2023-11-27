@@ -1,7 +1,7 @@
 <?php
 
-use Obelaw\Framework\Builder\Form\Fields;
-use Obelaw\Framework\Builder\Contracts\FieldType;
+use Obelaw\Schema\Form\Fields;
+use Obelaw\Schema\Form\FieldType;
 use Obelaw\Catalog\Models\Catagory;
 
 return new class

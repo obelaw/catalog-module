@@ -3,12 +3,12 @@
 namespace Obelaw\Catalog\Livewire\Products;
 
 use Obelaw\Catalog\Models\Product;
-use Obelaw\Framework\ACL\Attributes\PermissionAccess;
-use Obelaw\Framework\Base\FromBase;
+use Obelaw\UI\Permissions\Access;
+use Obelaw\UI\Renderer\FormRender;
 use Obelaw\Framework\Base\Traits\PushAlert;
 
-#[PermissionAccess('catalog_products_update')]
-class ProductUpdateComponent extends FromBase
+#[Access('catalog_products_update')]
+class ProductUpdateComponent extends FormRender
 {
     use PushAlert;
 

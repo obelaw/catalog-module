@@ -3,11 +3,11 @@
 namespace Obelaw\Catalog\Livewire\Products;
 
 use Obelaw\Catalog\Models\Product;
-use Obelaw\Framework\ACL\Attributes\PermissionAccess;
-use Obelaw\Framework\Base\GridBase;
+use Obelaw\UI\Permissions\Access;
+use Obelaw\UI\Renderer\GridRender;
 
-#[PermissionAccess('catalog_products_index')]
-class ProductsIndexComponent extends GridBase
+#[Access('catalog_products_index')]
+class ProductsIndexComponent extends GridRender
 {
     public $gridId = 'obelaw_catalog_products_index';
 

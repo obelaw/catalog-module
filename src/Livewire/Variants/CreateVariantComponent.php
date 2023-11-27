@@ -3,11 +3,11 @@
 namespace Obelaw\Catalog\Livewire\Variants;
 
 use Obelaw\Catalog\Models\Variant;
-use Obelaw\Framework\ACL\Attributes\PermissionAccess;
-use Obelaw\Framework\Base\FromBase;
+use Obelaw\UI\Permissions\Access;
+use Obelaw\UI\Renderer\FormRender;
 
-#[PermissionAccess('catalog_variants_create')]
-class CreateVariantComponent extends FromBase
+#[Access('catalog_variants_create')]
+class CreateVariantComponent extends FormRender
 {
     public $formId = 'obelaw_catalog_variant_form';
 

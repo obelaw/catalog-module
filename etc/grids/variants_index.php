@@ -1,12 +1,10 @@
 <?php
 
 use Obelaw\Catalog\Models\Variant;
-use Obelaw\Framework\Builder\Build\Grid\{
-    CTA,
-    Table,
-    Bottom
-};
-use Obelaw\Framework\Builder\Build\Common\RouteAction;
+use Obelaw\Schema\Grid\Button\RouteAction;
+use Obelaw\Schema\Grid\Button;
+use Obelaw\Schema\Grid\CTA;
+use Obelaw\Schema\Grid\Table;
 
 return new class
 {
@@ -15,9 +13,9 @@ return new class
         return Variant::class;
     }
 
-    public function createBottom(Bottom $bottom)
+    public function createButton(Button $button)
     {
-        $bottom->setBottom(
+        $button->setButton(
             label: 'Create New Variant',
             route: 'obelaw.catalog.variants.create',
             permission: 'catalog_variants_create',
