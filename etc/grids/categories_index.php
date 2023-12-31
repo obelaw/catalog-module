@@ -8,10 +8,7 @@ use Obelaw\Schema\Grid\Table;
 
 return new class
 {
-    public function model()
-    {
-        return Catagory::class;
-    }
+    public $model = Catagory::class;
 
     public function createButton(Button $button)
     {
