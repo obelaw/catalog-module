@@ -10,7 +10,7 @@ return new class
             name: 'Catalog',
             icon: 'barcode',
             href: 'obelaw.catalog.home',
-            helper: true
+            group: 'helper_modules',
         );
     }
 };
