@@ -1,11 +1,9 @@
 {
-    "name": "obelaw/catalog-module",
+    "name": "obelaw/catalog",
     "autoload": {
-        "files": [
-            "obelaw.php"
-        ],
         "psr-4": {
-            "Obelaw\\Catalog\\": "src/"
+            "Obelaw\\Catalog\\": "addons/Catalog/",
+            "Obelaw\\Catalog\\Core\\": "src/"
         }
     },
     "authors": [
@@ -15,13 +13,15 @@
         }
     ],
     "require": {
-        "obelaw/ui": "^1.0"
+        "obelaw/twist": "*"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Obelaw\\Catalog\\ObelawCatalogServiceProvider"
+                "Obelaw\\Catalog\\Core\\ObelawCatalogServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
