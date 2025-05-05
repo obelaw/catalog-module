@@ -1,6 +1,6 @@
 <?php
 
-namespace Obelaw\Catalog\Core;
+namespace Obelaw\Catalog;
 
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Twist\Addons\AddonsPool;
@@ -25,6 +25,6 @@ class ObelawCatalogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AddonsPool::setPoolPath(__DIR__ . '/../addons', AddonsPool::LEVELONE);
+        AddonsPool::loadTwist(__DIR__ . '/../twist.php');
     }
 }

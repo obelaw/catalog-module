@@ -2,8 +2,7 @@
     "name": "obelaw/catalog",
     "autoload": {
         "psr-4": {
-            "Obelaw\\Catalog\\": "addons/Catalog/",
-            "Obelaw\\Catalog\\Core\\": "src/"
+            "Obelaw\\Catalog\\": "src/"
         }
     },
     "authors": [
@@ -18,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Obelaw\\Catalog\\Core\\ObelawCatalogServiceProvider"
+                "Obelaw\\Catalog\\ObelawCatalogServiceProvider"
             ]
         }
     },
