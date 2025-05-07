@@ -3,11 +3,14 @@
 namespace Obelaw\Catalog\Filament\Resources;
 
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -38,41 +41,82 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Product Information')
-                    ->schema([
-                        Select::make('catagory_id')
-                            ->label('Catagory')
-                            ->options(Catagory::all()->pluck('name', 'id'))
-                            ->searchable(),
+                Group::make()->schema([
+                    Section::make('Product Information')
+                        ->schema([
+                            Select::make('catagory_id')
+                                ->label('Catagory')
+                                ->options(Catagory::all()->pluck('name', 'id'))
+                                ->searchable(),
 
-                        Select::make('product_type')
-                            ->options(ProductType::class)
-                            ->required(),
+                            TextInput::make('name')
+                                ->required(),
 
-                        Select::make('product_scope')
-                            ->options(ProductScope::class)
-                            ->required(),
+                            TextInput::make('sku')
+                                ->label('SKU')
+                                ->required(),
 
-                        TextInput::make('name')
-                            ->required(),
 
-                        TextInput::make('sku')
-                            ->label('SKU')
-                            ->required(),
+                        ]),
 
-                        Fieldset::make('Product Can')
-                            ->schema([
-                                Toggle::make('can_sold'),
-                                Toggle::make('can_purchased'),
-                            ])->columns(1),
+                    Section::make('Product Images')
+                        ->schema([
+                            FileUpload::make('thumbnail')
+                                ->label('Thumbnail'),
 
-                        Fieldset::make('Product Price')
-                            ->schema([
-                                TextInput::make('price_sales'),
-                                TextInput::make('price_purchase'),
-                            ])->columns(1),
-                    ]),
-            ])->columns(1);
+                            FileUpload::make('attachments')
+                                ->multiple()
+                        ]),
+                ])->columnSpan(2),
+
+                Group::make()->schema([
+                    Section::make('Product Selection')
+                        ->schema([
+                            Select::make('product_type')
+                                ->options(ProductType::class)
+                                ->required(),
+
+                            Select::make('product_scope')
+                                ->options(ProductScope::class)
+                                ->required(),
+                        ]),
+
+                    Section::make('Priceing Information')
+                        ->schema([
+                            Fieldset::make('Sold')
+                                ->schema([
+                                    Toggle::make('can_sold')
+                                        ->live(),
+
+                                    TextInput::make('price_sales')
+                                        ->visible(fn(Get $get) => $get('can_sold')),
+
+                                ])->columns(1),
+
+                            Fieldset::make('Purchased')
+                                ->schema([
+                                    Toggle::make('can_purchased')
+                                        ->live(),
+
+                                    TextInput::make('price_purchase')
+                                        ->visible(fn(Get $get) => $get('can_purchased')),
+                                ])->columns(1),
+
+                            // Fieldset::make('Product Can')
+                            //     ->schema([
+                            //         Toggle::make('can_sold'),
+                            //         Toggle::make('can_purchased'),
+                            //     ])->columns(1),
+
+                            // Fieldset::make('Product Price')
+                            //     ->schema([
+                            //         TextInput::make('price_sales'),
+                            //         TextInput::make('price_purchase'),
+                            //     ])->columns(1),
+                        ]),
+                ])->columnSpan(1),
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
