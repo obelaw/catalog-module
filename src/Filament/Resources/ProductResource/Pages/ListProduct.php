@@ -1,6 +1,6 @@
 <?php
 
-namespace Obelaw\Catalog\Filament\Resources\ProductResource;
+namespace Obelaw\Catalog\Filament\Resources\ProductResource\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;

@@ -3,6 +3,7 @@
 namespace Obelaw\Catalog\Filament\Resources;
 
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -21,7 +22,8 @@ use Filament\Tables\Table;
 use Obelaw\Catalog\Enums\ProductScope;
 use Obelaw\Catalog\Enums\ProductType;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
-use Obelaw\Catalog\Filament\Resources\ProductResource\ListProduct;
+use Obelaw\Catalog\Filament\Resources\ProductResource\Pages;
+use Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers\ProductRelatedRelation;
 use Obelaw\Catalog\Models\Catagory;
 use Obelaw\Catalog\Models\Product;
 
@@ -36,37 +38,40 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('catagory_id')
-                    ->label('Catagory')
-                    ->options(Catagory::all()->pluck('name', 'id'))
-                    ->searchable(),
-
-                Select::make('product_type')
-                    ->options(ProductType::class)
-                    ->required(),
-
-                Select::make('product_scope')
-                    ->options(ProductScope::class)
-                    ->required(),
-
-                TextInput::make('name')
-                    ->required(),
-
-                TextInput::make('sku')
-                    ->label('SKU')
-                    ->required(),
-
-                Fieldset::make('Product Can')
+                Section::make('Product Information')
                     ->schema([
-                        Toggle::make('can_sold'),
-                        Toggle::make('can_purchased'),
-                    ])->columns(1),
+                        Select::make('catagory_id')
+                            ->label('Catagory')
+                            ->options(Catagory::all()->pluck('name', 'id'))
+                            ->searchable(),
 
-                Fieldset::make('Product Price')
-                    ->schema([
-                        TextInput::make('price_sales'),
-                        TextInput::make('price_purchase'),
-                    ])->columns(1),
+                        Select::make('product_type')
+                            ->options(ProductType::class)
+                            ->required(),
+
+                        Select::make('product_scope')
+                            ->options(ProductScope::class)
+                            ->required(),
+
+                        TextInput::make('name')
+                            ->required(),
+
+                        TextInput::make('sku')
+                            ->label('SKU')
+                            ->required(),
+
+                        Fieldset::make('Product Can')
+                            ->schema([
+                                Toggle::make('can_sold'),
+                                Toggle::make('can_purchased'),
+                            ])->columns(1),
+
+                        Fieldset::make('Product Price')
+                            ->schema([
+                                TextInput::make('price_sales'),
+                                TextInput::make('price_purchase'),
+                            ])->columns(1),
+                    ]),
             ])->columns(1);
     }
 
@@ -137,16 +142,17 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductRelatedRelation::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListProduct::route('/'),
-            // 'create' => CreateProduct::route('/create'),
-            // 'edit' => EditCustomerAddress::route('/{record}/edit'),
+            'index' => Pages\ListProduct::route('/'),
+            'create' => Pages\CreateProduct::route('/create'),
+            'view' => Pages\ViewProduct::route('/{record}'),
+            'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 }

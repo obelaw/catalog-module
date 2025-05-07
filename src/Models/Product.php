@@ -4,9 +4,10 @@ namespace Obelaw\Catalog\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Obelaw\Accounting\Facades\PriceLists;
-use Obelaw\Catalog\Enums\ProductScope;
-use Obelaw\Twist\Base\BaseModel;
 use Obelaw\Audit\Traits\HasSerialize;
+use Obelaw\Catalog\Enums\ProductScope;
+use Obelaw\Catalog\Models\ProductRelated;
+use Obelaw\Twist\Base\BaseModel;
 
 class Product extends BaseModel
 {
@@ -80,5 +81,10 @@ class Product extends BaseModel
     public function catagory()
     {
         return $this->hasOne(Catagory::class, 'id', 'catagory_id');
+    }
+
+    public function related()
+    {
+        return $this->hasMany(ProductRelated::class, 'product_id', 'id');
     }
 }
