@@ -26,9 +26,11 @@ use Obelaw\Catalog\Enums\ProductScope;
 use Obelaw\Catalog\Enums\ProductType;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
 use Obelaw\Catalog\Filament\Resources\ProductResource\Pages;
+use Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers\ProductOptionsRelation;
 use Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers\ProductRelatedRelation;
 use Obelaw\Catalog\Models\Catagory;
 use Obelaw\Catalog\Models\Product;
+use Obelaw\Twist\Facades\Twist;
 
 class ProductResource extends Resource
 {
@@ -44,28 +46,42 @@ class ProductResource extends Resource
                 Group::make()->schema([
                     Section::make('Product Information')
                         ->schema([
-                            Select::make('catagory_id')
+                            Select::make(name: 'category_id')
                                 ->label('Catagory')
                                 ->options(Catagory::all()->pluck('name', 'id'))
                                 ->searchable(),
 
                             TextInput::make('name')
                                 ->required(),
-
-                            TextInput::make('sku')
-                                ->label('SKU')
-                                ->required(),
-
-
                         ]),
+
+                    Section::make('Inventory')
+                        ->schema([
+                            TextInput::make('inventory_sku')
+                                ->label('SKU')
+                                ->required()
+                                ->columnSpan(2),
+
+                            TextInput::make('inventory_quantity')
+                                ->label('Quantity')
+                                ->columnSpan(1),
+
+                            TextInput::make('inventory_safety_stock')
+                                ->label('Safety stock')
+                                ->columnSpan(1),
+
+                        ])->columns(2),
 
                     Section::make('Product Images')
                         ->schema([
                             FileUpload::make('thumbnail')
-                                ->label('Thumbnail'),
+                                ->label('Thumbnail')
+                                ->directory(Twist::getUploadDirectory()),
 
-                            FileUpload::make('attachments')
+                            FileUpload::make('gallery')
+                                ->label('Gallery')
                                 ->multiple()
+                                ->directory(Twist::getUploadDirectory()),
                         ]),
                 ])->columnSpan(2),
 
@@ -73,6 +89,7 @@ class ProductResource extends Resource
                     Section::make('Product Selection')
                         ->schema([
                             Select::make('product_type')
+                                ->live()
                                 ->options(ProductType::class)
                                 ->required(),
 
@@ -126,37 +143,33 @@ class ProductResource extends Resource
                 TextColumn::make('serials.serial')
                     ->searchable()
                     ->default('unserial'),
+
                 TextColumn::make('catagory.name')
                     ->label('Catagory')
                     ->default('uncategory'),
+
                 TextColumn::make('product_type')
-                    ->state(function (Product $record): string {
-                        return match ($record->product_scope) {
-                            ProductType::CONSUMABLE() => 'Consumable',
-                            ProductType::SERVICE() => 'Service',
-                            ProductType::STORABLE() => 'Storable',
-                            default => 'Need to Set',
-                        };
-                    }),
+                    ->badge(),
+
                 TextColumn::make('product_scope')
-                    ->state(function (Product $record): string {
-                        return match ($record->product_scope) {
-                            ProductScope::RAW_MATERIAL() => 'Raw Material',
-                            ProductScope::SEMI_FINISHED() => 'Semi Finished',
-                            ProductScope::FINISHED() => 'Finished',
-                            default => 'Need to Set',
-                        };
-                    }),
+                    ->badge(),
+
+                TextColumn::make('stock_type')
+                    ->badge(),
+
                 TextColumn::make('sku')
                     ->label('SKU')
                     ->searchable(),
+
                 TextColumn::make('name'),
+
                 ColumnGroup::make('Product Can', [
                     IconColumn::make('can_sold')
                         ->label('Sold')
                         ->boolean()
                         ->tooltip('price_sales')
                         ->alignCenter(),
+
                     IconColumn::make('can_purchased')
                         ->label('Purchased')
                         ->boolean()
@@ -167,6 +180,7 @@ class ProductResource extends Resource
                 SelectFilter::make('product_type')
                     ->multiple()
                     ->options(ProductType::class),
+
                 SelectFilter::make('product_scope')
                     ->multiple()
                     ->options(ProductScope::class),
@@ -187,6 +201,7 @@ class ProductResource extends Resource
     {
         return [
             ProductRelatedRelation::class,
+            ProductOptionsRelation::class,
         ];
     }
 

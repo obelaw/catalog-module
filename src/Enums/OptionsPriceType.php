@@ -3,12 +3,12 @@
 namespace Obelaw\Catalog\Enums;
 
 use Filament\Support\Contracts\HasLabel;
+use function GuzzleHttp\default_user_agent;
 
-enum ProductScope: int implements HasLabel
+enum OptionsPriceType: string implements HasLabel
 {
-    case RAW_MATERIAL = 1;
-    case SEMI_FINISHED = 2;
-    case FINISHED = 3;
+    case FORCE = 'force';
+    case APPEND = 'append';
 
     public static function __callStatic($name, $args)
     {
@@ -23,18 +23,16 @@ enum ProductScope: int implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::RAW_MATERIAL => 'Raw Material',
-            self::SEMI_FINISHED => 'Semi Finished',
-            self::FINISHED => 'Finished',
+            self::FORCE => 'Force',
+            self::APPEND => 'Append',
         };
     }
 
     public function getColor(): string|array|null
     {
         return match ($this) {
-            self::RAW_MATERIAL => 'success',
-            self::SEMI_FINISHED => 'warning',
-            self::FINISHED => 'gray',
+            self::FORCE => 'success',
+            self::APPEND => 'warning',
         };
     }
 }

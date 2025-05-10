@@ -6,31 +6,32 @@ use Filament\Support\Contracts\HasLabel;
 
 enum ProductType: int implements HasLabel
 {
-    case CONSUMABLE = 1;
-    case SERVICE = 2;
-    case STORABLE = 3;
+    case SIMPLE = 1;
+    case CONFIGURABLE = 2;
 
     public static function __callStatic($name, $args)
     {
         $name = strtoupper($name);
 
-        if ($case = array_filter(static::cases(), fn ($case) => $case->name == $name))
+        if ($case = array_filter(static::cases(), fn($case) => $case->name == $name))
             return current($case)->value;
 
         throw new \Exception('This case does not exists');
     }
 
-    public function type()
+    public function getLabel(): ?string
     {
         return match ($this) {
-            self::CONSUMABLE => 'Consumable',
-            self::SERVICE => 'Service',
-            self::STORABLE => 'Storable',
+            self::SIMPLE => 'Simple',
+            self::CONFIGURABLE => 'Configurable',
         };
     }
 
-    public function getLabel(): ?string
+    public function getColor(): string|array|null
     {
-        return $this->name;
+        return match ($this) {
+            self::SIMPLE => 'success',
+            self::CONFIGURABLE => 'warning',
+        };
     }
 }

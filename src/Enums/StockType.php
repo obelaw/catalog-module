@@ -4,11 +4,11 @@ namespace Obelaw\Catalog\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 
-enum ProductScope: int implements HasLabel
+enum StockType: int implements HasLabel
 {
-    case RAW_MATERIAL = 1;
-    case SEMI_FINISHED = 2;
-    case FINISHED = 3;
+    case CONSUMABLE = 1;
+    case SERVICE = 2;
+    case STORABLE = 3;
 
     public static function __callStatic($name, $args)
     {
@@ -23,18 +23,18 @@ enum ProductScope: int implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::RAW_MATERIAL => 'Raw Material',
-            self::SEMI_FINISHED => 'Semi Finished',
-            self::FINISHED => 'Finished',
+            self::CONSUMABLE => 'Consumable',
+            self::SERVICE => 'Service',
+            self::STORABLE => 'Storable',
         };
     }
 
     public function getColor(): string|array|null
     {
         return match ($this) {
-            self::RAW_MATERIAL => 'success',
-            self::SEMI_FINISHED => 'warning',
-            self::FINISHED => 'gray',
+            self::CONSUMABLE => 'success',
+            self::SERVICE => 'warning',
+            self::STORABLE => 'warning',
         };
     }
 }
