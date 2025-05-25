@@ -2,15 +2,32 @@
 
 namespace Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers;
 
+use Filament\Forms\Components\Select;
+use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Obelaw\Catalog\Models\Product;
 
 class ProductRelatedRelation extends RelationManager
 {
     protected static ?string $title = 'Related Products';
     protected static ?string $description = 'heroicon-o-archive-box';
     protected static string $relationship = 'related';
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Select::make('related_id')
+                    ->label('Product')
+                    ->live()
+                    ->options(Product::pluck('name', 'id'))
+                    ->required(),
+            ])->columns(1);
+    }
 
     public function table(Table $table): Table
     {
@@ -20,7 +37,7 @@ class ProductRelatedRelation extends RelationManager
                     ->label('Name')
                     ->searchable(),
 
-                TextColumn::make('related.sku')
+                TextColumn::make('related.inventory_sku')
                     ->label('SKU')
                     ->searchable(),
 
@@ -30,14 +47,10 @@ class ProductRelatedRelation extends RelationManager
                 //
             ])
             ->headerActions([
-                // Tables\Actions\CreateAction::make(),
+                CreateAction::make()
             ])
             ->actions([
-                // Action::make('View')
-                //     ->icon('heroicon-o-eye')
-                //     ->color(Color::Gray)
-                //     ->url(fn (Model $record) => route('filament.erp-o.resources.serials.view', $record)),
-
+                DeleteAction::make(),
             ])
             ->groupedBulkActions([
                 // Tables\Actions\DeleteBulkAction::make(),
