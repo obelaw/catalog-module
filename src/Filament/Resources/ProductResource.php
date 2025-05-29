@@ -2,11 +2,15 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -22,13 +26,18 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Obelaw\Catalog\Enums\OptionsPriceType;
 use Obelaw\Catalog\Enums\ProductScope;
 use Obelaw\Catalog\Enums\ProductType;
+use Obelaw\Catalog\Enums\StockType;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
 use Obelaw\Catalog\Filament\Resources\ProductResource\Pages;
 use Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers\ProductOptionsRelation;
 use Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers\ProductRelatedRelation;
+use Obelaw\Catalog\Models\Attribute;
+use Obelaw\Catalog\Models\AttributeValue;
 use Obelaw\Catalog\Models\Catagory;
+use Obelaw\Catalog\Models\ContactVendor;
 use Obelaw\Catalog\Models\Product;
 use Obelaw\Twist\Facades\Twist;
 
@@ -43,96 +52,206 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Group::make()->schema([
-                    Section::make('Product Information')
-                        ->schema([
-                            Select::make(name: 'category_id')
-                                ->label('Catagory')
-                                ->options(Catagory::all()->pluck('name', 'id'))
-                                ->searchable(),
+                Section::make('Product Information')
+                    ->schema([
+                        Select::make(name: 'category_id')
+                            ->label('Catagory')
+                            ->options(Catagory::all()->pluck('name', 'id'))
+                            ->searchable(),
 
-                            TextInput::make('name')
-                                ->required(),
-                        ]),
+                        TextInput::make('name')
+                            ->required(),
 
-                    Section::make('Inventory')
-                        ->schema([
-                            TextInput::make('inventory_sku')
-                                ->label('SKU')
-                                ->required()
-                                ->columnSpan(2),
+                        TextInput::make('inventory_sku')
+                            ->label('SKU')
+                            ->required(),
+                    ])->columnSpan(2),
 
-                            TextInput::make('inventory_quantity')
-                                ->label('Quantity')
-                                ->columnSpan(1),
+                Section::make('Product Selection')
+                    ->schema([
+                        Select::make('product_type')
+                            ->live()
+                            ->options(ProductType::class)
+                            ->required(),
 
-                            TextInput::make('inventory_safety_stock')
-                                ->label('Safety stock')
-                                ->columnSpan(1),
+                        Select::make('product_scope')
+                            ->options(ProductScope::class)
+                            ->required(),
 
-                        ])->columns(2),
+                        Select::make('stock_type')
+                            ->options(StockType::class)
+                            ->required(),
+                    ])->columnSpan(1),
 
-                    Section::make('Product Images')
-                        ->schema([
-                            FileUpload::make('thumbnail')
-                                ->label('Thumbnail')
-                                ->directory(Twist::getUploadDirectory()),
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tabs\Tab::make('General')
+                            ->icon('heroicon-m-information-circle')
+                            ->schema([
+                                Group::make()->schema([
 
-                            FileUpload::make('gallery')
-                                ->label('Gallery')
-                                ->multiple()
-                                ->directory(Twist::getUploadDirectory()),
-                        ]),
-                ])->columnSpan(2),
 
-                Group::make()->schema([
-                    Section::make('Product Selection')
-                        ->schema([
-                            Select::make('product_type')
-                                ->live()
-                                ->options(ProductType::class)
-                                ->required(),
+                                    Section::make('Product Images')
+                                        ->schema([
+                                            FileUpload::make('thumbnail')
+                                                ->label('Thumbnail')
+                                                ->directory(Twist::getUploadDirectory()),
 
-                            Select::make('product_scope')
-                                ->options(ProductScope::class)
-                                ->required(),
-                        ]),
+                                            FileUpload::make('gallery')
+                                                ->label('Gallery')
+                                                ->multiple()
+                                                ->directory(Twist::getUploadDirectory()),
+                                        ]),
+                                ])->columnSpan(3),
+                            ])->columns(3),
 
-                    Section::make('Priceing Information')
-                        ->schema([
-                            Fieldset::make('Sold')
-                                ->schema([
-                                    Toggle::make('can_sold')
-                                        ->live(),
+                        Tabs\Tab::make('Attributes & Variants')
+                            ->icon('heroicon-m-list-bullet')
+                            ->visible(fn(Get $get) => $get('product_type') == ProductType::CONFIGURABLE->value)
+                            // ->badge(5)
+                            ->schema([
+                                Repeater::make('options')
+                                    ->relationship()
+                                    ->schema([
+                                        Select::make('attribute_id')
+                                            ->label('Attribute')
+                                            ->options(Attribute::pluck('name', 'id'))
+                                            ->required()
+                                            ->live(),
 
-                                    TextInput::make('price_sales')
-                                        ->visible(fn(Get $get) => $get('can_sold')),
+                                        Select::make('attribute_value_id')
+                                            ->label('Attribute Value')
+                                            ->options(fn(Get $get) => AttributeValue::where('attribute_id', $get('attribute_id'))->pluck('value', 'id'))
+                                            ->required()
+                                            ->disabled(fn(Get $get) => !$get('attribute_id')),
 
-                                ])->columns(1),
+                                        TextInput::make('sku')
+                                            ->label('SKU')
+                                            ->required()
+                                            ->columnSpanFull(),
 
-                            Fieldset::make('Purchased')
-                                ->schema([
-                                    Toggle::make('can_purchased')
-                                        ->live(),
+                                        Select::make('type_price')
+                                            ->live()
+                                            ->options(OptionsPriceType::class)
+                                            ->live(),
 
-                                    TextInput::make('price_purchase')
-                                        ->visible(fn(Get $get) => $get('can_purchased')),
-                                ])->columns(1),
+                                        TextInput::make('special_price')
+                                            ->label('Special Price')
+                                            ->required(fn(Get $get) => $get('type_price')),
+                                    ])
+                                    ->defaultItems(0)
+                                    ->columns(2)
+                            ]),
 
-                            // Fieldset::make('Product Can')
-                            //     ->schema([
-                            //         Toggle::make('can_sold'),
-                            //         Toggle::make('can_purchased'),
-                            //     ])->columns(1),
+                        Tabs\Tab::make('Sales')
+                            ->icon('heroicon-m-currency-dollar')
+                            // ->badge(5)
+                            ->schema([
+                                Section::make('Priceing Information')
+                                    ->schema([
+                                        Toggle::make('sales_can_sold')
+                                            ->label('Can Sold')
+                                            ->live(),
 
-                            // Fieldset::make('Product Price')
-                            //     ->schema([
-                            //         TextInput::make('price_sales'),
-                            //         TextInput::make('price_purchase'),
-                            //     ])->columns(1),
-                        ]),
-                ])->columnSpan(1),
+                                        TextInput::make('sales_sale_price')
+                                            ->label('Price Sales')
+                                            ->numeric()
+                                            ->required(fn(Get $get) => $get('sales_can_sold'))
+                                            ->visible(fn(Get $get) => $get('sales_can_sold')),
 
+                                        Fieldset::make('Special')
+                                            ->schema([
+                                                TextInput::make('sales_special_price')
+                                                    ->label('Special price')
+                                                    ->numeric()
+                                                    ->columnSpanFull(),
+
+                                                DatePicker::make('sales_special_price_from')
+                                                    ->label('Special Sales From'),
+
+                                                DatePicker::make('sales_special_price_to')
+                                                    ->label('Special Sales To'),
+                                            ])->visible(fn(Get $get) => $get('sales_can_sold')),
+                                    ]),
+                            ]),
+
+                        Tabs\Tab::make('Purchase')
+                            ->icon('heroicon-m-currency-dollar')
+                            // ->badge(5)
+                            ->schema([
+                                Section::make('Priceing Information')
+                                    ->schema([
+                                        Toggle::make('purchase_can_purchased')
+                                            ->label('Can Purchased')
+                                            ->live(),
+
+                                        Repeater::make('vendors')
+                                            ->relationship()
+                                            ->visible(fn(Get $get) => $get('purchase_can_purchased'))
+                                            ->schema([
+                                                Select::make('vendor_id')
+                                                    ->label('Vendor')
+                                                    ->options(ContactVendor::pluck('name', 'id'))
+                                                    ->required(),
+
+                                                TextInput::make('purchase_price')
+                                                    ->label('Price Purchase')
+                                                    ->numeric()
+                                                    ->required(),
+                                            ])
+                                            ->defaultItems(0)
+                                            ->columns(2)
+
+
+                                    ]),
+                            ]),
+
+                        Tabs\Tab::make('Inventory')
+                            ->icon('heroicon-m-archive-box')
+                            ->schema([
+                                Section::make('Dimension')
+                                    ->schema([
+                                        TextInput::make('inventory_dimension_length')
+                                            ->label('Length')
+                                            ->numeric()
+                                            ->columnSpan(2),
+
+                                        TextInput::make('inventory_dimension_width')
+                                            ->label('Width')
+                                            ->numeric()
+                                            ->columnSpan(2),
+
+                                        TextInput::make('inventory_dimension_height')
+                                            ->label('Height')
+                                            ->numeric()
+                                            ->columnSpan(2),
+
+                                        TextInput::make('inventory_weight')
+                                            ->label('Weight')
+                                            ->numeric()
+                                            ->columnSpan(1),
+
+                                        TextInput::make('inventory_volume')
+                                            ->label('Volume')
+                                            ->numeric()
+                                            ->columnSpan(1),
+
+                                    ])->columns(2)
+                                    ->columnSpan(2),
+
+                                Section::make('Inventory')
+                                    ->schema([
+                                        TextInput::make('inventory_quantity')
+                                            ->label('Quantity'),
+
+                                        TextInput::make('inventory_safety_stock')
+                                            ->label('Safety stock'),
+
+                                    ])->columnSpan(1),
+                            ])->columns(3),
+                    ])->columnSpanFull()
+                    ->persistTabInQueryString('tab')
+                    ->contained(false),
             ])->columns(3);
     }
 
@@ -201,7 +320,6 @@ class ProductResource extends Resource
     {
         return [
             ProductRelatedRelation::class,
-            ProductOptionsRelation::class,
         ];
     }
 

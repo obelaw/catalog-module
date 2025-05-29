@@ -16,6 +16,7 @@ use Obelaw\Catalog\Models\AttributeValue; // Corrected namespace
 use Obelaw\Catalog\Models\Catagory;
 use Obelaw\Catalog\Models\ProductAttribute; // Pivot model
 use Obelaw\Catalog\Models\ProductRelated;
+use Obelaw\Catalog\Models\ProductVendor;
 use Obelaw\Twist\Base\BaseModel;
 
 class Product extends BaseModel
@@ -38,20 +39,27 @@ class Product extends BaseModel
         'product_scope',
         'stock_type',
         'name',
-        'inventory_sku',
-        'inventory_quantity',
-        'inventory_safety_stock',
+
         'thumbnail',
         'gallery',
         'description',
-        'can_sold',
-        'can_purchased',
-        'price_sales',
-        'price_purchase',
-        'special_price',
-        'special_price_from',
-        'special_price_to',
-        'stock_quantity',
+
+        'sales_can_sold',
+        'sales_sale_price',
+        'sales_special_price',
+        'sales_special_price_from',
+        'sales_special_price_to',
+
+        'purchase_can_purchased',
+
+        'inventory_sku',
+        'inventory_quantity',
+        'inventory_safety_stock',
+        'inventory_dimension_length',
+        'inventory_dimension_width',
+        'inventory_dimension_height',
+        'inventory_weight',
+        'inventory_volume',
     ];
 
     protected $casts = [
@@ -121,5 +129,10 @@ class Product extends BaseModel
     public function options()
     {
         return $this->hasMany(ProductAttribute::class, 'product_id', 'id');
+    }
+
+    public function vendors()
+    {
+        return $this->hasMany(ProductVendor::class, 'product_id', 'id');
     }
 }

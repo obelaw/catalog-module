@@ -3,6 +3,7 @@
 namespace Obelaw\Catalog;
 
 use Illuminate\Support\ServiceProvider;
+use Obelaw\Contacts\ContactType;
 use Obelaw\Twist\Addons\AddonsPool;
 
 class ObelawCatalogServiceProvider extends ServiceProvider
@@ -15,7 +16,7 @@ class ObelawCatalogServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        ContactType::add('VENDOR', 2);
     }
 
     /**

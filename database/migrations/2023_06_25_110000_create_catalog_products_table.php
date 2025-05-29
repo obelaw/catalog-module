@@ -23,29 +23,30 @@ return new class extends BaseMigration
 
             $table->string('name');
 
-            $table->string('inventory_sku')->unique()->index();
-            $table->string('inventory_quantity')->nullable();
-            $table->string('inventory_safety_stock')->nullable();
-
             $table->string('thumbnail')->nullable();
             $table->json('gallery')->nullable();
             $table->text('description')->nullable();
 
-            // sold
-            $table->boolean('can_sold')->nullable();
-            $table->decimal('price_sales', 10, 2)->nullable();
-
-            // purchased
-            $table->boolean('can_purchased')->nullable();
-            $table->decimal('price_purchase', 10, 2)->nullable();
-
+            // sales
+            $table->boolean('sales_can_sold')->nullable();
+            $table->decimal('sales_sale_price', 10, 2)->nullable();
             // special_price
-            $table->decimal('special_price', 10, 2)->nullable();
-            $table->date('special_price_from')->nullable();
-            $table->date('special_price_to')->nullable();
+            $table->decimal('sales_special_price', 10, 2)->nullable();
+            $table->date('sales_special_price_from')->nullable();
+            $table->date('sales_special_price_to')->nullable();
 
-            // stock
-            $table->integer('stock_quantity')->nullable();
+            // purchase
+            $table->boolean('purchase_can_purchased')->nullable();
+
+            // inventory
+            $table->string('inventory_sku')->unique()->index();
+            $table->string('inventory_quantity')->nullable();
+            $table->string('inventory_safety_stock')->nullable();
+            $table->integer('inventory_dimension_length')->nullable();
+            $table->integer('inventory_dimension_width')->nullable();
+            $table->integer('inventory_dimension_height')->nullable();
+            $table->integer('inventory_weight')->nullable();
+            $table->integer('inventory_volume')->nullable();
 
             $table->timestamps();
         });

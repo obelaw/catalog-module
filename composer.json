@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "obelaw/twist": "*"
+        "obelaw/twist": "*",
+        "obelaw/contacts": "dev-main"
     },
     "extra": {
         "laravel": {
