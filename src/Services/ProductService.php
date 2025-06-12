@@ -12,6 +12,8 @@ class ProductService extends BaseService
     public function setProduct(Product $product)
     {
         $this->product = $product;
+
+        return $this;
     }
 
     public function getProductName()

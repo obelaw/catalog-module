@@ -276,7 +276,7 @@ class ProductResource extends Resource
                 TextColumn::make('stock_type')
                     ->badge(),
 
-                TextColumn::make('sku')
+                TextColumn::make('inventory_sku')
                     ->label('SKU')
                     ->searchable(),
 
