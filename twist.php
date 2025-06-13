@@ -4,5 +4,6 @@ use Obelaw\Catalog\CatalogAddon;
 
 \Obelaw\Twist\Addons\AddonRegistrar::register(
     'obelaw.catalog',
-    CatalogAddon::class
+    CatalogAddon::class,
+    config('obelaw.catalog.panels')
 );

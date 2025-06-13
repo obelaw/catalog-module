@@ -17,6 +17,11 @@ class ObelawCatalogServiceProvider extends ServiceProvider
     public function register()
     {
         ContactType::add('VENDOR', 2);
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/catalog.php',
+            'obelaw.catalog'
+        );
     }
 
     /**
@@ -27,5 +32,11 @@ class ObelawCatalogServiceProvider extends ServiceProvider
     public function boot()
     {
         AddonsPool::loadTwist(__DIR__ . '/../twist.php');
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../config/catalog.php' => config_path('obelaw/catalog.php'),
+            ]);
+        }
     }
 }
