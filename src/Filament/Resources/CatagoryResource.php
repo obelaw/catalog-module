@@ -2,15 +2,16 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
+use App\Concerns\HasDBTenancy;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
@@ -19,14 +20,16 @@ use Obelaw\Catalog\Models\Catagory;
 
 class CatagoryResource extends Resource
 {
+    use HasDBTenancy;
+
     protected static ?int $navigationSort = 2;
     protected static ?string $cluster = CatalogCluster::class;
     protected static ?string $model = Catagory::class;
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Select::make('parent_id')
                     ->label('Parent')
@@ -49,12 +52,12 @@ class CatagoryResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

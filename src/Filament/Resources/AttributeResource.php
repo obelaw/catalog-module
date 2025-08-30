@@ -2,14 +2,17 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ListAttributes;
+use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ViewAttribute;
+use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\EditAttribute;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
@@ -22,12 +25,12 @@ class AttributeResource extends Resource
     protected static ?int $navigationSort = 2;
     protected static ?string $cluster = CatalogCluster::class;
     protected static ?string $model = Attribute::class;
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
+    protected static string | \UnitEnum | null $navigationGroup = 'Configuration';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 TextInput::make('name')
                     ->label('Name')
@@ -44,12 +47,12 @@ class AttributeResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
@@ -66,10 +69,10 @@ class AttributeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAttributes::route('/'),
+            'index' => ListAttributes::route('/'),
             // 'create' => CreateCustomerAddress::route('/create'),
-            'view' => Pages\ViewAttribute::route('/{record}'),
-            'edit' => Pages\EditAttribute::route('/{record}/edit'),
+            'view' => ViewAttribute::route('/{record}'),
+            'edit' => EditAttribute::route('/{record}/edit'),
         ];
     }
 }

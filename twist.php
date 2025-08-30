@@ -1,8 +1,9 @@
 <?php
 
+use Obelaw\Twist\Addons\AddonRegistrar;
 use Obelaw\Catalog\CatalogAddon;
 
-\Obelaw\Twist\Addons\AddonRegistrar::register(
+AddonRegistrar::register(
     'obelaw.catalog',
     CatalogAddon::class,
     config('obelaw.catalog.panels')

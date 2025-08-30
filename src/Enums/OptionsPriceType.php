@@ -2,8 +2,8 @@
 
 namespace Obelaw\Catalog\Enums;
 
+use Exception;
 use Filament\Support\Contracts\HasLabel;
-use function GuzzleHttp\default_user_agent;
 
 enum OptionsPriceType: string implements HasLabel
 {
@@ -17,7 +17,7 @@ enum OptionsPriceType: string implements HasLabel
         if ($case = array_filter(static::cases(), fn($case) => $case->name == $name))
             return current($case)->value;
 
-        throw new \Exception('This case does not exists');
+        throw new Exception('This case does not exists');
     }
 
     public function getLabel(): ?string

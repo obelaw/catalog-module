@@ -2,6 +2,7 @@
 
 namespace Obelaw\Catalog\Enums;
 
+use Exception;
 use Filament\Support\Contracts\HasLabel;
 
 enum ProductType: int implements HasLabel
@@ -16,7 +17,7 @@ enum ProductType: int implements HasLabel
         if ($case = array_filter(static::cases(), fn($case) => $case->name == $name))
             return current($case)->value;
 
-        throw new \Exception('This case does not exists');
+        throw new Exception('This case does not exists');
     }
 
     public function getLabel(): ?string

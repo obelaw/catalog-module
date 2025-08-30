@@ -2,17 +2,11 @@
 
 namespace Obelaw\Catalog\Models;
 
-use App\Models\ProductGallery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Obelaw\Accounting\Facades\PriceLists;
-use Obelaw\Audit\Traits\HasSerialize;
 use Obelaw\Catalog\Enums\ProductScope;
 use Obelaw\Catalog\Enums\ProductType;
 use Obelaw\Catalog\Enums\StockType;
-use Obelaw\Catalog\Models\AttributeValue; // Corrected namespace
 use Obelaw\Catalog\Models\Catagory;
 use Obelaw\Catalog\Models\ProductAttribute; // Pivot model
 use Obelaw\Catalog\Models\ProductRelated;
@@ -22,7 +16,6 @@ use Obelaw\Twist\Base\BaseModel;
 class Product extends BaseModel
 {
     use HasFactory;
-    use HasSerialize;
 
     protected static $serialSection = 'catal';
     protected $table = 'catalog_products';
@@ -100,12 +93,12 @@ class Product extends BaseModel
 
     public function scopeCanSold($query)
     {
-        return $query->where('can_sold', true);
+        return $query->where('sales_can_sold', true);
     }
 
     public function scopeCanPurchased($query)
     {
-        return $query->where('can_purchased', true);
+        return $query->where('purchase_can_purchased', true);
     }
 
     public function scopeInPos($query)

@@ -2,25 +2,27 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
+use App\Concerns\HasDBTenancy;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -32,6 +34,10 @@ use Obelaw\Catalog\Enums\ProductType;
 use Obelaw\Catalog\Enums\StockType;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
 use Obelaw\Catalog\Filament\Resources\ProductResource\Pages;
+use Obelaw\Catalog\Filament\Resources\ProductResource\Pages\CreateProduct;
+use Obelaw\Catalog\Filament\Resources\ProductResource\Pages\EditProduct;
+use Obelaw\Catalog\Filament\Resources\ProductResource\Pages\ListProduct;
+use Obelaw\Catalog\Filament\Resources\ProductResource\Pages\ViewProduct;
 use Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers\ProductOptionsRelation;
 use Obelaw\Catalog\Filament\Resources\ProductResource\RelationManagers\ProductRelatedRelation;
 use Obelaw\Catalog\Models\Attribute;
@@ -43,14 +49,16 @@ use Obelaw\Twist\Facades\Twist;
 
 class ProductResource extends Resource
 {
+    use HasDBTenancy;
+    
     protected static ?int $navigationSort = 1;
     protected static ?string $cluster = CatalogCluster::class;
     protected static ?string $model = Product::class;
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-archive-box';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('Product Information')
                     ->schema([
@@ -85,7 +93,7 @@ class ProductResource extends Resource
 
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make('General')
+                        Tab::make('General')
                             ->icon('heroicon-m-information-circle')
                             ->schema([
                                 Group::make()->schema([
@@ -105,7 +113,7 @@ class ProductResource extends Resource
                                 ])->columnSpan(3),
                             ])->columns(3),
 
-                        Tabs\Tab::make('Attributes & Variants')
+                        Tab::make('Attributes & Variants')
                             ->icon('heroicon-m-list-bullet')
                             ->visible(fn(Get $get) => $get('product_type') == ProductType::CONFIGURABLE->value)
                             // ->badge(5)
@@ -143,7 +151,7 @@ class ProductResource extends Resource
                                     ->columns(2)
                             ]),
 
-                        Tabs\Tab::make('Sales')
+                        Tab::make('Sales')
                             ->icon('heroicon-m-currency-dollar')
                             // ->badge(5)
                             ->schema([
@@ -175,7 +183,7 @@ class ProductResource extends Resource
                                     ]),
                             ]),
 
-                        Tabs\Tab::make('Purchase')
+                        Tab::make('Purchase')
                             ->icon('heroicon-m-currency-dollar')
                             // ->badge(5)
                             ->schema([
@@ -189,10 +197,10 @@ class ProductResource extends Resource
                                             ->relationship()
                                             ->visible(fn(Get $get) => $get('purchase_can_purchased'))
                                             ->schema([
-                                                Select::make('vendor_id')
-                                                    ->label('Vendor')
-                                                    ->options(ContactVendor::pluck('name', 'id'))
-                                                    ->required(),
+                                                // Select::make('vendor_id')
+                                                //     ->label('Vendor')
+                                                //     ->options(ContactVendor::pluck('name', 'id'))
+                                                //     ->required(),
 
                                                 TextInput::make('purchase_price')
                                                     ->label('Price Purchase')
@@ -206,7 +214,7 @@ class ProductResource extends Resource
                                     ]),
                             ]),
 
-                        Tabs\Tab::make('Inventory')
+                        Tab::make('Inventory')
                             ->icon('heroicon-m-archive-box')
                             ->schema([
                                 Section::make('Dimension')
@@ -304,12 +312,12 @@ class ProductResource extends Resource
                     ->multiple()
                     ->options(ProductScope::class),
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
@@ -326,10 +334,10 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProduct::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'view' => Pages\ViewProduct::route('/{record}'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => ListProduct::route('/'),
+            'create' => CreateProduct::route('/create'),
+            'view' => ViewProduct::route('/{record}'),
+            'edit' => EditProduct::route('/{record}/edit'),
         ];
     }
 }

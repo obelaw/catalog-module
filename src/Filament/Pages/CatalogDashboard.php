@@ -2,6 +2,7 @@
 
 namespace Obelaw\Catalog\Filament\Pages;
 
+use Obelaw\Catalog\Filament\Widgets\CatalogCountsWidget;
 use Filament\Pages\Dashboard;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
 
@@ -16,7 +17,7 @@ class CatalogDashboard extends Dashboard
     public function getWidgets(): array
     {
         return [
-            \Obelaw\Catalog\Filament\Widgets\CatalogCountsWidget::class,
+            CatalogCountsWidget::class,
         ];
     }
 }
