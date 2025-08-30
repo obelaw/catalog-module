@@ -2,7 +2,7 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
-use App\Concerns\HasDBTenancy;
+use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -50,7 +50,7 @@ use Obelaw\Twist\Facades\Twist;
 class ProductResource extends Resource
 {
     use HasDBTenancy;
-    
+
     protected static ?int $navigationSort = 1;
     protected static ?string $cluster = CatalogCluster::class;
     protected static ?string $model = Product::class;

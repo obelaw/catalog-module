@@ -2,7 +2,7 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
-use App\Concerns\HasDBTenancy;
+use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
