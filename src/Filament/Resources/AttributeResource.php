@@ -2,26 +2,28 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ListAttributes;
-use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ViewAttribute;
-use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\EditAttribute;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Catalog\Filament\Clusters\CatalogCluster;
 use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages;
+use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\EditAttribute;
+use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ListAttributes;
+use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ViewAttribute;
 use Obelaw\Catalog\Filament\Resources\AttributeResource\RelationManagers\AttributeValuesRelation;
 use Obelaw\Catalog\Models\Attribute;
+use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
 
 class AttributeResource extends Resource
 {
+    use HasDBTenancy;
     protected static ?int $navigationSort = 2;
     protected static ?string $cluster = CatalogCluster::class;
     protected static ?string $model = Attribute::class;
