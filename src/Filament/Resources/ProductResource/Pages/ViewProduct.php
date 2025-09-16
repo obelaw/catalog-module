@@ -20,7 +20,7 @@ class ViewProduct extends ViewRecord
 
     public function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
                 Tabs::make('Tabs')->tabs([
                     Tab::make('Order Information')
