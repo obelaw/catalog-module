@@ -4,7 +4,7 @@ namespace Obelaw\Catalog;
 
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Contacts\ContactType;
-use Obelaw\Twist\Addons\AddonsPool;
+use Twist\Addons\AddonsPool;
 
 class ObelawCatalogServiceProvider extends ServiceProvider
 {

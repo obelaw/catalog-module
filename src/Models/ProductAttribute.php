@@ -4,7 +4,7 @@ namespace Obelaw\Catalog\Models; // Assuming moved to this namespace
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Obelaw\Catalog\Enums\OptionsPriceType;
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class ProductAttribute extends BaseModel
 {

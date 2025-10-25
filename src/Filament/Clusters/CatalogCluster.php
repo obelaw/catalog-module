@@ -3,7 +3,7 @@
 namespace Obelaw\Catalog\Filament\Clusters;
 
 use Filament\Clusters\Cluster;
-use Obelaw\Twist\Facades\Twist;
+use Twist\Facades\Twist;
 
 class CatalogCluster extends Cluster
 {

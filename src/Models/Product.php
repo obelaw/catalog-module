@@ -11,7 +11,7 @@ use Obelaw\Catalog\Models\Catagory;
 use Obelaw\Catalog\Models\ProductAttribute; // Pivot model
 use Obelaw\Catalog\Models\ProductRelated;
 use Obelaw\Catalog\Models\ProductVendor;
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class Product extends BaseModel
 {

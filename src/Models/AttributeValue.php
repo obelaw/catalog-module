@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Obelaw\Catalog\Models\Attribute;
 use Obelaw\Catalog\Models\Product;
-use Obelaw\Twist\Base\BaseModel; // Assuming it should extend BaseModel
+use Twist\Base\BaseModel; // Assuming it should extend BaseModel
 
 class AttributeValue extends BaseModel // Extend BaseModel for prefixing
 {

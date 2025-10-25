@@ -3,7 +3,7 @@
 namespace Obelaw\Catalog\Models; // Assuming moved to this namespace
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class ProductVendor extends BaseModel
 {

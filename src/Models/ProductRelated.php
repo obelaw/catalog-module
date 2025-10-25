@@ -2,7 +2,7 @@
 
 namespace Obelaw\Catalog\Models;
 
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class ProductRelated extends BaseModel
 {

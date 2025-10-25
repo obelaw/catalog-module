@@ -19,7 +19,7 @@ use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ListAttributes;
 use Obelaw\Catalog\Filament\Resources\AttributeResource\Pages\ViewAttribute;
 use Obelaw\Catalog\Filament\Resources\AttributeResource\RelationManagers\AttributeValuesRelation;
 use Obelaw\Catalog\Models\Attribute;
-use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
+use Twist\Tenancy\Concerns\HasDBTenancy;
 
 class AttributeResource extends Resource
 {

@@ -3,7 +3,7 @@
 namespace Obelaw\Catalog\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class Catagory extends BaseModel
 {

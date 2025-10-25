@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Obelaw\Catalog\Enums\ProductScope;
 use Obelaw\Catalog\Enums\ProductType;
 use Obelaw\Catalog\Enums\StockType;
-use Obelaw\Twist\Base\BaseMigration;
+use Twist\Base\BaseMigration;
 
 return new class extends BaseMigration
 {

@@ -3,7 +3,7 @@
 namespace Obelaw\Catalog\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class Attribute extends BaseModel
 {

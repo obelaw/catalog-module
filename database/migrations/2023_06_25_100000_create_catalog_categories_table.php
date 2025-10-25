@@ -1,6 +1,6 @@
 <?php
 
-use Obelaw\Twist\Base\BaseMigration;
+use Twist\Base\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 

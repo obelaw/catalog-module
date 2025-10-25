@@ -3,9 +3,9 @@
 namespace Obelaw\Catalog;
 
 use Filament\Panel;
-use Obelaw\Twist\Base\BaseAddon;
-use Obelaw\Twist\Concerns\InteractsWithMigration;
-use Obelaw\Twist\Contracts\HasMigration;
+use Twist\Base\BaseAddon;
+use Twist\Concerns\InteractsWithMigration;
+use Twist\Contracts\HasMigration;
 
 class CatalogAddon extends BaseAddon implements HasMigration
 {

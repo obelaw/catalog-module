@@ -2,7 +2,7 @@
 
 namespace Obelaw\Catalog\Filament\Resources;
 
-use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
+use Twist\Tenancy\Concerns\HasDBTenancy;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -45,7 +45,7 @@ use Obelaw\Catalog\Models\AttributeValue;
 use Obelaw\Catalog\Models\Catagory;
 use Obelaw\Catalog\Models\ContactVendor;
 use Obelaw\Catalog\Models\Product;
-use Obelaw\Twist\Facades\Twist;
+use Twist\Facades\Twist;
 
 class ProductResource extends Resource
 {

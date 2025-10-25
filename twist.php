@@ -1,6 +1,6 @@
 <?php
 
-use Obelaw\Twist\Addons\AddonRegistrar;
+use Twist\Addons\AddonRegistrar;
 use Obelaw\Catalog\CatalogAddon;
 
 AddonRegistrar::register(

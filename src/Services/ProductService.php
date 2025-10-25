@@ -3,7 +3,7 @@
 namespace Obelaw\Catalog\Services;
 
 use Obelaw\Catalog\Models\Product;
-use Obelaw\Twist\Base\BaseService;
+use Twist\Base\BaseService;
 
 class ProductService extends BaseService
 {
